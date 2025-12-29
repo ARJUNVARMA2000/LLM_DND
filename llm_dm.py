@@ -38,49 +38,74 @@ def debug_log(message: str) -> None:
 
 # OpenRouter API configuration
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "google/gemini-2.5-flash-preview"
+DEFAULT_MODEL = "google/gemini-2.5-flash"
 
 # Available models with descriptions
 AVAILABLE_MODELS = {
-    "google/gemini-2.5-flash-preview": {
+    # === BALANCED (Default tier - great value) ===
+    "google/gemini-2.5-flash": {
         "name": "Gemini 2.5 Flash",
         "tier": "balanced",
         "description": "Fast, smart, great value (default)"
     },
-    "google/gemini-2.5-pro-preview": {
+    "anthropic/claude-sonnet-4": {
+        "name": "Claude Sonnet 4",
+        "tier": "balanced",
+        "description": "Excellent coding & reasoning, reliable"
+    },
+    "openai/gpt-4.1": {
+        "name": "GPT-4.1",
+        "tier": "balanced",
+        "description": "OpenAI's latest balanced model"
+    },
+    "deepseek/deepseek-chat-v3-0324": {
+        "name": "DeepSeek V3",
+        "tier": "balanced",
+        "description": "Strong reasoning, very cost-effective"
+    },
+    
+    # === PREMIUM (Top-tier quality) ===
+    "anthropic/claude-sonnet-4.5": {
+        "name": "Claude Sonnet 4.5",
+        "tier": "premium",
+        "description": "Anthropic's most advanced Sonnet"
+    },
+    "anthropic/claude-opus-4": {
+        "name": "Claude Opus 4",
+        "tier": "premium",
+        "description": "Frontier reasoning & complex tasks"
+    },
+    "google/gemini-2.5-pro": {
         "name": "Gemini 2.5 Pro",
         "tier": "premium",
         "description": "Google's most capable model"
     },
-    "meta-llama/llama-3.1-8b-instruct": {
-        "name": "Llama 3.1 8B",
+    "openai/o3-mini": {
+        "name": "OpenAI o3-mini",
+        "tier": "premium",
+        "description": "Advanced reasoning model"
+    },
+    "x-ai/grok-3-fast": {
+        "name": "Grok 3 Fast",
+        "tier": "premium",
+        "description": "xAI's fast agentic model"
+    },
+    
+    # === CHEAP (Budget-friendly) ===
+    "google/gemini-2.0-flash-lite": {
+        "name": "Gemini 2.0 Flash Lite",
         "tier": "cheap",
-        "description": "Fast and cheap, good for testing"
-    },
-    "meta-llama/llama-3.1-70b-instruct": {
-        "name": "Llama 3.1 70B", 
-        "tier": "balanced",
-        "description": "Great balance of quality and cost"
-    },
-    "anthropic/claude-3.5-haiku": {
-        "name": "Claude 3.5 Haiku",
-        "tier": "balanced", 
-        "description": "Fast, smart, good at following formats"
-    },
-    "anthropic/claude-sonnet-4": {
-        "name": "Claude Sonnet 4",
-        "tier": "premium",
-        "description": "Excellent quality, higher cost"
-    },
-    "openai/gpt-4o": {
-        "name": "GPT-4o",
-        "tier": "premium",
-        "description": "Top quality, highest cost"
+        "description": "Ultra-fast and cheap for testing"
     },
     "openai/gpt-4o-mini": {
         "name": "GPT-4o Mini",
-        "tier": "balanced",
-        "description": "Good quality, reasonable cost"
+        "tier": "cheap",
+        "description": "Good quality, very affordable"
+    },
+    "anthropic/claude-3.5-haiku": {
+        "name": "Claude 3.5 Haiku",
+        "tier": "cheap",
+        "description": "Fast, smart, good at formats"
     }
 }
 

@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+/* =============================================================================
+   THE DRAGON'S SHADOW - Dark Fantasy Theme
+   ============================================================================= */
+
+/* Custom Theme Variables */
+:root {
+  /* Colors - Dark Fantasy Palette */
+  --bg-darkest: #0a0a0c;
+  --bg-dark: #12121a;
+  --bg-medium: #1a1a24;
+  --bg-light: #242432;
+  --bg-lighter: #2e2e3d;
+  
+  --text-primary: #e8e4dc;
+  --text-secondary: #9d9a92;
+  --text-muted: #6a675f;
+  --text-gold: #d4a84b;
+  --text-red: #c45c5c;
+  --text-green: #5cb85c;
+  --text-blue: #5bc0de;
+  
+  --accent-gold: #c9a227;
+  --accent-gold-dark: #8b6914;
+  --accent-red: #8b3a3a;
+  --accent-red-bright: #d64545;
+  --accent-green: #3a8b3a;
+  --accent-blue: #3a5c8b;
+  --accent-purple: #6b3a8b;
+  
+  --border-dark: rgba(255, 255, 255, 0.05);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-gold: rgba(201, 162, 39, 0.3);
+  
+  --shadow-dark: rgba(0, 0, 0, 0.5);
+  --shadow-glow: rgba(201, 162, 39, 0.2);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Crimson Text', Georgia, serif;
+  background-color: var(--bg-darkest);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Font Utilities */
+.font-display {
+  font-family: 'Cinzel', serif;
+}
+
+.font-body {
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-lighter);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold-dark);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-gold);
+  color: var(--bg-darkest);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(201, 162, 39, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(201, 162, 39, 0.6); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes heavy-shake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-10px, -5px); }
+  20% { transform: translate(10px, 5px); }
+  30% { transform: translate(-8px, 3px); }
+  40% { transform: translate(8px, -3px); }
+  50% { transform: translate(-5px, 5px); }
+  60% { transform: translate(5px, -5px); }
+  70% { transform: translate(-3px, 2px); }
+  80% { transform: translate(3px, -2px); }
+  90% { transform: translate(-1px, 1px); }
+}
+
+@keyframes damage-flash {
+  0% { background-color: transparent; }
+  50% { background-color: rgba(214, 69, 69, 0.3); }
+  100% { background-color: transparent; }
+}
+
+@keyframes float-up {
+  0% { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% { 
+    opacity: 0;
+    transform: translateY(-60px) scale(1.2);
+  }
+}
+
+/* Utility Classes */
+.text-shadow-glow {
+  text-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
+}
+
+.glass-dark {
+  background: rgba(26, 26, 36, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-light);
+  }
+
+/* Health bar gradients */
+.hp-gradient {
+  background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-red-bright) 100%);
+}
+
+.enemy-hp-gradient {
+  background: linear-gradient(90deg, #4a1a1a 0%, #8b3a3a 100%);
+  }
+
+/* Gold gradient for buttons */
+.btn-gold-gradient {
+  background: linear-gradient(180deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+}

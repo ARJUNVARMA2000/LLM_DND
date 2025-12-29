@@ -6,7 +6,7 @@ Flask application serving the browser-based D&D adventure.
 import os
 import json
 import secrets
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, send_from_directory
 from functools import wraps
 
 from engine import (
@@ -22,7 +22,15 @@ from image_gen import generate_scene_image, generate_enemy_image
 # APP CONFIGURATION
 # =============================================================================
 
-app = Flask(__name__)
+# Check if React frontend is built
+REACT_BUILD_PATH = os.path.join(os.path.dirname(__file__), 'frontend', 'dist')
+USE_REACT = os.path.exists(REACT_BUILD_PATH)
+
+if USE_REACT:
+    app = Flask(__name__, static_folder=os.path.join(REACT_BUILD_PATH, 'assets'), static_url_path='/assets')
+else:
+    app = Flask(__name__)
+    
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', secrets.token_hex(32))
 
 # Store active game sessions (in production, use Redis or database)
@@ -54,12 +62,28 @@ def set_game_state(state):
 @app.route('/')
 def index():
     """Main game page."""
-    has_key, _ = check_api_key()
-    models = [(k, v['name'], v['description']) for k, v in AVAILABLE_MODELS.items()]
-    return render_template('index.html', 
-                         has_api_key=has_key,
-                         models=models,
-                         default_model=DEFAULT_MODEL)
+    if USE_REACT:
+        return send_from_directory(REACT_BUILD_PATH, 'index.html')
+    else:
+        has_key, _ = check_api_key()
+        models = [(k, v['name'], v['description']) for k, v in AVAILABLE_MODELS.items()]
+        return render_template('index.html', 
+                             has_api_key=has_key,
+                             models=models,
+                             default_model=DEFAULT_MODEL)
+
+# Serve React app for any non-API routes (SPA support)
+@app.route('/<path:path>')
+def serve_react(path):
+    """Serve React app static files or fallback to index.html."""
+    if USE_REACT:
+        # Try to serve static file first
+        file_path = os.path.join(REACT_BUILD_PATH, path)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            return send_from_directory(REACT_BUILD_PATH, path)
+        # Fallback to index.html for SPA routing
+        return send_from_directory(REACT_BUILD_PATH, 'index.html')
+    return "Not found", 404
 
 # =============================================================================
 # ROUTES - API

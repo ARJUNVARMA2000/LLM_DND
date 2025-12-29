@@ -41,9 +41,12 @@ env/
 .env.local
 .env.*.local
 
-# Game saves (optional - can be tracked if desired)
+# Game saves
 saves/*.json
 save.json
+
+# Generated images cache
+static/generated/
 
 # OS files
 .DS_Store

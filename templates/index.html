@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dragon's Shadow | A D&D Adventure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Atmospheric Background Effects -->
+    <div class="atmosphere">
+        <div class="fog fog-1"></div>
+        <div class="fog fog-2"></div>
+        <div class="particles" id="particles"></div>
+        <div class="vignette"></div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="game-container">
+        
+        <!-- Title Screen -->
+        <section id="title-screen" class="screen active">
+            <div class="title-content">
+                <div class="title-emblem">⚔</div>
+                <h1 class="game-title">
+                    <span class="title-the">The</span>
+                    <span class="title-main">Dragon's Shadow</span>
+                </h1>
+                <p class="tagline">An LLM-Powered D&D Adventure</p>
+                
+                <div class="title-buttons">
+                    <button class="btn btn-primary" id="btn-new-game">
+                        <span class="btn-icon">🗡</span>
+                        New Adventure
+                    </button>
+                    <button class="btn btn-secondary" id="btn-continue">
+                        <span class="btn-icon">📜</span>
+                        Continue Journey
+                    </button>
+                </div>
+
+                <div class="model-selector">
+                    <label for="model-select">AI Dungeon Master:</label>
+                    <select id="model-select">
+                        {% for model_id, name, desc in models %}
+                        <option value="{{ model_id }}" {{ 'selected' if model_id == default_model else '' }}>
+                            {{ name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {% if not has_api_key %}
+                <div class="api-warning">
+                    <span class="warning-icon">⚠</span>
+                    <span>OpenRouter API key not configured. Set OPENROUTER_API_KEY environment variable.</span>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Character Creation Screen -->
+        <section id="character-screen" class="screen">
+            <div class="panel character-panel">
+                <h2 class="panel-title">Create Your Hero</h2>
+                
+                <div class="form-group">
+                    <label for="char-name">Your Name</label>
+                    <input type="text" id="char-name" placeholder="Enter your name..." maxlength="20">
+                </div>
+
+                <div class="class-selection">
+                    <h3>Choose Your Path</h3>
+                    <div class="class-cards">
+                        <div class="class-card" data-class="fighter">
+                            <div class="class-icon">⚔️</div>
+                            <h4>Fighter</h4>
+                            <div class="class-stats">
+                                <span class="stat">HP: 18</span>
+                                <span class="stat">STR</span>
+                            </div>
+                            <p class="class-ability">Second Wind: Heal in battle</p>
+                        </div>
+                        <div class="class-card" data-class="rogue">
+                            <div class="class-icon">🗡️</div>
+                            <h4>Rogue</h4>
+                            <div class="class-stats">
+                                <span class="stat">HP: 12</span>
+                                <span class="stat">DEX</span>
+                            </div>
+                            <p class="class-ability">Sneak Attack: +2d6 damage</p>
+                        </div>
+                        <div class="class-card" data-class="mage">
+                            <div class="class-icon">🔮</div>
+                            <h4>Mage</h4>
+                            <div class="class-stats">
+                                <span class="stat">HP: 10</span>
+                                <span class="stat">INT</span>
+                            </div>
+                            <p class="class-ability">Fireball: 3d6 fire damage</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" id="btn-start-adventure" disabled>
+                    Begin Your Adventure
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Game Screen -->
+        <section id="game-screen" class="screen">
+            <!-- Scene Image -->
+            <div class="scene-container">
+                <img id="scene-image" src="" alt="Scene" class="scene-image">
+                <div class="scene-overlay"></div>
+            </div>
+
+            <!-- Game Content -->
+            <div class="game-content">
+                <!-- Location Header -->
+                <div class="location-header">
+                    <h2 id="location-name" class="location-name">The Rusty Tankard</h2>
+                </div>
+
+                <!-- Narrative Text -->
+                <div class="narrative-container">
+                    <div id="narrative-text" class="narrative-text">
+                        <!-- Story text appears here -->
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div id="notifications" class="notifications"></div>
+
+                <!-- Choices -->
+                <div id="choices-container" class="choices-container">
+                    <!-- Choice buttons appear here -->
+                </div>
+            </div>
+
+            <!-- Player HUD -->
+            <div class="player-hud">
+                <div class="hud-portrait">
+                    <div class="portrait-frame">
+                        <span id="hud-class-icon" class="class-icon">⚔️</span>
+                    </div>
+                    <div class="portrait-info">
+                        <span id="hud-name" class="hud-name">Hero</span>
+                        <span id="hud-class" class="hud-class">Fighter</span>
+                    </div>
+                </div>
+
+                <div class="hud-stats">
+                    <div class="stat-bar hp-bar">
+                        <div class="stat-label">
+                            <span>HP</span>
+                            <span id="hud-hp">18/18</span>
+                        </div>
+                        <div class="stat-bar-track">
+                            <div id="hud-hp-fill" class="stat-bar-fill hp-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="hud-resources">
+                        <div class="resource">
+                            <span class="resource-icon">💰</span>
+                            <span id="hud-gold">0</span>
+                        </div>
+                        <div class="resource">
+                            <span class="resource-icon">⚡</span>
+                            <span id="hud-ability">1/1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hud-actions">
+                    <button class="hud-btn" id="btn-inventory" title="Inventory">
+                        <span>🎒</span>
+                    </button>
+                    <button class="hud-btn" id="btn-stats" title="Stats">
+                        <span>📊</span>
+                    </button>
+                    <button class="hud-btn" id="btn-save" title="Save">
+                        <span>💾</span>
+                    </button>
+                    <button class="hud-btn" id="btn-menu" title="Menu">
+                        <span>☰</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quest Tracker -->
+            <div class="quest-tracker" id="quest-tracker">
+                <div class="quest-header">
+                    <span class="quest-icon">📜</span>
+                    <span id="quest-name">No Active Quest</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Combat Screen -->
+        <section id="combat-screen" class="screen">
+            <div class="combat-arena">
+                <!-- Enemy Section -->
+                <div class="enemy-section">
+                    <img id="enemy-image" src="" alt="Enemy" class="enemy-image">
+                    <div class="enemy-info">
+                        <h3 id="enemy-name" class="enemy-name">Enemy</h3>
+                        <div class="enemy-hp-bar">
+                            <div class="stat-bar-track">
+                                <div id="enemy-hp-fill" class="stat-bar-fill enemy-fill" style="width: 100%"></div>
+                            </div>
+                            <span id="enemy-hp-text" class="hp-text">10/10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combat Log -->
+                <div class="combat-log">
+                    <div id="combat-narrative" class="combat-narrative">
+                        <!-- Combat narration appears here -->
+                    </div>
+                </div>
+
+                <!-- Player Combat Stats -->
+                <div class="player-combat-stats">
+                    <div class="combat-hp-bar">
+                        <span class="hp-label">YOUR HP</span>
+                        <div class="stat-bar-track large">
+                            <div id="combat-hp-fill" class="stat-bar-fill hp-fill" style="width: 100%"></div>
+                        </div>
+                        <span id="combat-hp-text" class="hp-text">18/18</span>
+                    </div>
+                </div>
+
+                <!-- Combat Actions -->
+                <div class="combat-actions">
+                    <button class="combat-btn attack-btn" data-action="attack">
+                        <span class="btn-icon">⚔️</span>
+                        <span>Attack</span>
+                    </button>
+                    <button class="combat-btn ability-btn" data-action="ability" id="combat-ability-btn">
+                        <span class="btn-icon">⚡</span>
+                        <span id="combat-ability-name">Ability</span>
+                    </button>
+                    <button class="combat-btn item-btn" data-action="item">
+                        <span class="btn-icon">🧪</span>
+                        <span>Item</span>
+                    </button>
+                    <button class="combat-btn flee-btn" data-action="flee">
+                        <span class="btn-icon">🏃</span>
+                        <span>Flee</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Combat Result Overlay -->
+            <div id="combat-result" class="combat-result hidden">
+                <div class="result-content">
+                    <h2 id="result-title" class="result-title">Victory!</h2>
+                    <div id="result-rewards" class="result-rewards"></div>
+                    <button class="btn btn-primary" id="btn-continue-after-combat">Continue</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inventory Modal -->
+        <div id="inventory-modal" class="modal hidden">
+            <div class="modal-content inventory-content">
+                <div class="modal-header">
+                    <h2>Inventory</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="inventory-gold">
+                        <span class="gold-icon">💰</span>
+                        <span id="inventory-gold">0 Gold</span>
+                    </div>
+                    <div class="inventory-grid" id="inventory-grid">
+                        <!-- Items appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Modal -->
+        <div id="stats-modal" class="modal hidden">
+            <div class="modal-content stats-content">
+                <div class="modal-header">
+                    <h2>Character Stats</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="stats-display" class="stats-display">
+                        <!-- Stats appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">The Dungeon Master is crafting your fate...</p>
+            </div>
+        </div>
+
+        <!-- Dice Roll Display -->
+        <div id="dice-display" class="dice-display hidden">
+            <div class="dice-content">
+                <div class="dice-icon">🎲</div>
+                <div id="dice-result" class="dice-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
+

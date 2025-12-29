@@ -1,70 +1,133 @@
 # The Dragon's Shadow
 
-**An LLM-Powered D&D Text Adventure**
+**An LLM-Powered D&D Text Adventure with AI-Generated Visuals**
 
-A dynamic text-based role-playing game where an AI Dungeon Master creates your adventure in real-time. Every playthrough is unique, with procedurally generated narratives, encounters, and outcomes.
+A dynamic browser-based role-playing game where an AI Dungeon Master creates your adventure in real-time. Every playthrough is unique, featuring procedurally generated narratives, AI-generated scene images, and authentic D&D mechanics.
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![LLM](https://img.shields.io/badge/AI-OpenRouter-green.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Flask](https://img.shields.io/badge/Flask-3.0-green.svg)
+![LLM](https://img.shields.io/badge/AI-OpenRouter-purple.svg)
+![Deploy](https://img.shields.io/badge/Deploy-Railway-orange.svg)
 
 ## Features
 
-- **Dynamic AI Dungeon Master** - The LLM generates unique stories, locations, and encounters
-- **D&D-Style Mechanics** - Authentic dice rolls (d20, d6, d8), stat modifiers, and skill checks
+- **AI Dungeon Master** - Dynamic story generation via OpenRouter LLMs
+- **AI-Generated Visuals** - Unique scene and enemy images via Pollinations.ai (FREE!)
+- **Dark Fantasy Aesthetic** - Atmospheric UI with fog effects, animations, and moody lighting
+- **D&D Mechanics** - Authentic dice rolls (d20, d6, d8), stat modifiers, and skill checks
 - **Three Playable Classes** - Fighter, Rogue, and Mage with unique abilities
 - **Turn-Based Combat** - Strategic battles with attack, ability, item, and flee options
-- **Quest System** - Dynamic main and side quests that evolve based on your choices
+- **Quest System** - Dynamic quests that evolve based on your choices
 - **Save/Load** - Full game state persistence
-- **Multiple Endings** - Your choices shape the outcome
+- **Easy Deployment** - One-click deploy to Railway
+
+## Screenshots
+
+*Dark fantasy tavern scene with atmospheric fog and moody lighting*
 
 ## Quick Start
 
-### 1. Get an OpenRouter API Key
+### Local Development
 
-1. Visit [OpenRouter](https://openrouter.ai/keys)
-2. Create a free account
-3. Generate an API key
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/dragons-shadow.git
+   cd dragons-shadow
+   ```
 
-### 2. Set Your API Key
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-**Windows (PowerShell):**
-```powershell
-$env:OPENROUTER_API_KEY = "your-api-key-here"
+3. **Set your OpenRouter API key**
+   ```bash
+   # Windows PowerShell
+   $env:OPENROUTER_API_KEY = "sk-or-v1-your-key-here"
+   
+   # Linux/Mac
+   export OPENROUTER_API_KEY="sk-or-v1-your-key-here"
+   ```
+   
+   Get a free key at [OpenRouter](https://openrouter.ai/keys)
+
+4. **Run the game**
+   ```bash
+   python app.py
+   ```
+
+5. **Open your browser**
+   ```
+   http://localhost:5000
+   ```
+
+### Deploy to Railway
+
+1. Push your code to GitHub
+
+2. Go to [Railway](https://railway.app) and create a new project
+
+3. Connect your GitHub repository
+
+4. Add environment variable:
+   - `OPENROUTER_API_KEY` = your OpenRouter API key
+
+5. Deploy! Railway will automatically detect the Procfile
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template)
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Browser (Client)                        │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
+│  │   HTML/CSS  │  │  game.js    │  │   AI-Generated Images   │  │
+│  │  Dark Theme │  │  Game Logic │  │   (Pollinations.ai)     │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                              │ API Calls
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Flask Server (app.py)                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
+│  │  Routes     │  │  Session    │  │   Game State            │  │
+│  │  /api/*     │  │  Management │  │   Management            │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+     ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+     │  engine.py  │  │  llm_dm.py  │  │ image_gen.py│
+     │  Game Logic │  │  OpenRouter │  │ Pollinations│
+     │  Dice/Combat│  │  LLM Calls  │  │ AI Images   │
+     └─────────────┘  └─────────────┘  └─────────────┘
 ```
 
-**Windows (Command Prompt):**
-```cmd
-set OPENROUTER_API_KEY=your-api-key-here
+## File Structure
+
 ```
-
-**Linux/macOS:**
-```bash
-export OPENROUTER_API_KEY="your-api-key-here"
-```
-
-### 3. Run the Game
-
-```bash
-python game.py
+DND/
+├── app.py              # Flask server & API routes
+├── engine.py           # Game mechanics, dice, combat, state
+├── llm_dm.py           # OpenRouter LLM integration
+├── image_gen.py        # Pollinations.ai image generation
+├── requirements.txt    # Python dependencies
+├── Procfile            # Deployment command
+├── railway.json        # Railway configuration
+├── templates/
+│   └── index.html      # Main game page
+├── static/
+│   ├── css/
+│   │   └── style.css   # Dark fantasy theme
+│   └── js/
+│       └── game.js     # Frontend game logic
+├── saves/              # Save game directory
+└── README.md           # This file
 ```
 
 ## Gameplay
-
-### Controls
-
-During gameplay, you'll be presented with numbered choices. Type the number and press Enter.
-
-**Commands available at any prompt:**
-| Command | Description |
-|---------|-------------|
-| `inventory` / `i` | View your items |
-| `stats` / `s` | View character stats |
-| `quests` / `q` | View quest log |
-| `save` | Save your game |
-| `load` | Load a saved game |
-| `help` / `h` | Show help |
-| `quit` | Exit (prompts to save) |
 
 ### Classes
 
@@ -74,47 +137,46 @@ During gameplay, you'll be presented with numbered choices. Type the number and 
 | **Rogue** | 12 | DEX | Sneak Attack - +2d6 damage (1/combat) |
 | **Mage** | 10 | INT | Fireball - 3d6 fire damage (2/day) |
 
+### Controls
+
+**Keyboard Shortcuts:**
+- `1-9` - Select choices
+- `I` - Open inventory
+- `Escape` - Close modals
+
+**Combat Shortcuts:**
+- `A` - Attack
+- `S` - Use Ability
+- `D` - Use Item
+- `F` - Flee
+
 ### Dice System
 
 The game uses authentic D&D-style dice:
 - **d20** for attack rolls and skill checks
 - **d6/d8** for damage
-- Modifiers from stats are applied automatically
 
-Example roll output:
-```
-[Attack] d20: 14 + STR(2) = 16 vs AC 12 - HIT!
-[Damage] 1d8: 6 + STR(2) = 8 damage!
-```
+## Configuration
 
-## Architecture
+### Environment Variables
 
-The game is built with a clean separation of concerns:
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OPENROUTER_API_KEY` | Yes | Your OpenRouter API key |
+| `FLASK_SECRET_KEY` | No | Session encryption key (auto-generated if not set) |
+| `PORT` | No | Server port (default: 5000) |
+| `FLASK_DEBUG` | No | Enable debug mode (default: false) |
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│    game.py      │────▶│   engine.py     │────▶│   llm_dm.py     │
-│  (Game Loop)    │     │  (Mechanics)    │     │  (AI Layer)     │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-       │                       │                       │
-       ▼                       ▼                       ▼
-  Player Input           Game State              OpenRouter API
-  Display Output         Dice Rolls              Prompt Templates
-  Commands               Combat                  Response Parsing
-```
+### Available LLM Models
 
-### File Structure
-
-```
-DND/
-├── game.py           # Main entry point and game loop
-├── engine.py         # Game mechanics, state, dice, combat
-├── llm_dm.py         # OpenRouter integration and prompts
-├── README.md         # This file
-├── .env.example      # Example environment setup
-├── .gitignore        # Git ignore rules
-└── saves/            # Save game directory (created on first save)
-```
+| Model | Tier | Best For |
+|-------|------|----------|
+| Llama 3.1 8B | Cheap | Testing, fast iterations |
+| Llama 3.1 70B | Balanced | Good quality, reasonable cost (default) |
+| Claude 3.5 Haiku | Balanced | Follows formats well |
+| GPT-4o Mini | Balanced | Good all-rounder |
+| Claude Sonnet 4 | Premium | Excellent narrative quality |
+| GPT-4o | Premium | Highest quality |
 
 ## Extending the Game
 
@@ -124,7 +186,6 @@ In `engine.py`, add to the `CLASSES` dictionary:
 
 ```python
 CLASSES = {
-    # ... existing classes ...
     "paladin": {
         "base_hp": 14,
         "primary_stat": "CHA",
@@ -132,7 +193,7 @@ CLASSES = {
         "starting_items": ["Longsword", "Shield", "Holy Symbol"],
         "ability": {
             "name": "Divine Smite",
-            "description": "Add 2d8 radiant damage to an attack",
+            "description": "Add 2d8 radiant damage",
             "uses": 2,
             "cooldown_type": "rest",
             "effect": "damage_boost"
@@ -141,188 +202,52 @@ CLASSES = {
 }
 ```
 
-Then add handling for the new ability effect in the `use_class_ability()` function.
+### Modifying the DM's Personality
 
-### Adding New Items
-
-In `engine.py`, add to the `ITEMS` dictionary:
-
-```python
-ITEMS = {
-    # ... existing items ...
-    "Ring of Protection": {
-        "type": "armor",
-        "ac_bonus": 1,
-        "description": "A magical ring that deflects attacks"
-    },
-    "Greater Health Potion": {
-        "type": "consumable",
-        "effect": "heal",
-        "value": "4d4+4",
-        "description": "Restores significant health"
-    }
-}
-```
-
-### Modifying DM Behavior
-
-In `llm_dm.py`, edit `SYSTEM_PROMPT` to change the AI's personality:
+In `llm_dm.py`, edit `SYSTEM_PROMPT`:
 
 ```python
 SYSTEM_PROMPT = """You are a gritty, dark fantasy Dungeon Master.
-Your tone is ominous and foreboding. Danger lurks everywhere.
-Combat is brutal and unforgiving..."""
+Your world is dangerous and unforgiving. Combat is brutal.
+NPCs have hidden agendas..."""
 ```
 
-### Adding New Models
+### Customizing the Visual Style
 
-In `llm_dm.py`, add to `AVAILABLE_MODELS`:
+Edit `static/css/style.css` to change colors, fonts, and effects:
 
-```python
-AVAILABLE_MODELS = {
-    # ... existing models ...
-    "google/gemini-pro": {
-        "name": "Gemini Pro",
-        "tier": "balanced",
-        "description": "Google's capable model"
-    }
+```css
+:root {
+    --accent-gold: #c9a227;  /* Change accent color */
+    --bg-darkest: #0a0a0c;   /* Change background */
 }
 ```
 
-## Configuration
+## API Costs
 
-### Debug Mode
+- **OpenRouter (LLM)**: Pay-per-token, varies by model
+  - Llama 3.1 70B: ~$0.01-0.02 per session
+  - GPT-4o: ~$0.10-0.20 per session
+- **Pollinations.ai (Images)**: FREE! No API key needed
 
-Enable debug mode to see internal state and rolls:
+## Tech Stack
 
-```python
-# In game.py, engine.py, or llm_dm.py
-DEBUG = True
-```
-
-### Available Models
-
-| Model | Tier | Best For |
-|-------|------|----------|
-| Llama 3.1 8B | Cheap | Testing, fast iterations |
-| Llama 3.1 70B | Balanced | Good quality, reasonable cost |
-| Claude 3.5 Haiku | Balanced | Follows formats well |
-| GPT-4o Mini | Balanced | Good all-rounder |
-| Claude Sonnet 4 | Premium | Excellent narrative quality |
-| GPT-4o | Premium | Highest quality |
-
-## Demo Transcript
-
-```
-╔═══════════════════════════════════════════════════════════════╗
-║  THE DRAGON'S SHADOW - An LLM-Powered D&D Adventure           ║
-╚═══════════════════════════════════════════════════════════════╝
-
-> Enter your name: Vex
-> Choose class: [1] Fighter [2] Rogue [3] Mage: 2
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  THE RUSTY TANKARD
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Rain hammers the windows as you nurse your ale. A hooded stranger
-  locks eyes with you, then deliberately places a folded note on
-  their table before slipping out the back.
-
-───────────────────────────────────────────────────────────────
-  HP: 12/12 | Gold: 15 | Rogue | Items: Dagger, Lockpicks
-  Quest: None active
-───────────────────────────────────────────────────────────────
-
-  What do you do?
-    [1] Grab the note and read it
-    [2] Follow the stranger into the alley
-    [3] Ask the bartender about the stranger
-    [4] Ignore it and finish your drink
-
-> 2
-
-  [DEX Check] d20: 17 + DEX(3) = 20 vs DC 14 - SUCCESS!
-
-  You slip through the crowd unnoticed and follow the figure into
-  the rain-slicked alley. They turn, lowering their hood to reveal
-  an elven woman with worry in her eyes.
-
-  [Quest Started: The Missing Villagers]
-
-> Press Enter to continue...
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ⚔️  DESPERATE BANDIT ATTACKS!  ⚔️
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  A ragged figure leaps from the shadows, blade glinting!
-
-═══════════════════════════════════════════════════════════════
-  ⚔️  COMBAT  ⚔️
-───────────────────────────────────────────────────────────────
-  YOU: [████████████████████] 12/12 HP
-  DESPERATE BANDIT: [████████████████████] 8/8 HP
-═══════════════════════════════════════════════════════════════
-
-  YOUR TURN:
-    [1] Attack with Dagger
-    [2] Use Sneak Attack (1 left)
-    [3] Use Item (1 available)
-    [4] Attempt to Flee
-
-> 1
-
-  [Attack] d20: 18 + DEX(3) = 21 vs AC 12 - HIT!
-  [Damage] 1d4: 3 + DEX(3) + Sneak(7) = 13 damage!
-
-  [✓] Hit! Dealt 13 damage!
-
-  ⚔️  VICTORY!  ⚔️
-  
-  You have defeated the Desperate Bandit!
-  +3 gold
-  Found: Rusty Key
-```
-
-## Technical Details
-
-### Requirements
-
-- Python 3.11+
-- No external dependencies (uses only standard library)
-- OpenRouter API key
-
-### API Usage
-
-The game uses OpenRouter's API for LLM access. Typical session uses:
-- ~50-100 API calls for a 30-minute session
-- ~100K-200K tokens total
-- Cost varies by model (Llama 3.1 70B ≈ $0.05-0.10 per session)
-
-### Save Format
-
-Saves are stored as JSON in the `saves/` directory:
-
-```json
-{
-    "version": "1.0",
-    "timestamp": "2025-12-28T10:30:00",
-    "game_state": { ... },
-    "rng_seed": 12345
-}
-```
+- **Backend**: Python 3.11+, Flask 3.0
+- **Frontend**: Vanilla JavaScript, CSS3
+- **LLM**: OpenRouter API (multi-model support)
+- **Images**: Pollinations.ai (free AI image generation)
+- **Deployment**: Railway, Gunicorn
 
 ## Contributing
 
-Contributions welcome! Some ideas:
+Contributions welcome! Ideas:
 
-- [ ] Additional classes (Ranger, Cleric, etc.)
 - [ ] Multiplayer support
-- [ ] Voice narration integration
+- [ ] Voice narration (TTS integration)
 - [ ] Map visualization
-- [ ] Combat log export
-- [ ] Achievement system
+- [ ] Additional classes
+- [ ] Mobile optimization
+- [ ] Sound effects
 
 ## License
 
@@ -330,11 +255,10 @@ MIT License - feel free to use, modify, and distribute.
 
 ## Credits
 
-- Built with Python and OpenRouter
-- Inspired by classic D&D adventures and text games
-- AI-powered by various LLMs via OpenRouter
+- AI narrative powered by OpenRouter
+- AI images powered by Pollinations.ai
+- Inspired by classic D&D adventures
 
 ---
 
-*Roll for initiative. Your adventure awaits.*
-
+*Roll for initiative. Your adventure awaits.* 🐉

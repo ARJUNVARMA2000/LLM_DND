@@ -4,6 +4,10 @@ Flask application serving the browser-based D&D adventure.
 """
 
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 import json
 import secrets
 from flask import Flask, render_template, request, jsonify, session, send_from_directory

@@ -1,264 +1,268 @@
-# The Dragon's Shadow
+# 🐉 The Dragon's Shadow
 
-**An LLM-Powered D&D Text Adventure with AI-Generated Visuals**
+**An AI-Powered Dungeons & Dragons Text Adventure Game**
 
-A dynamic browser-based role-playing game where an AI Dungeon Master creates your adventure in real-time. Every playthrough is unique, featuring procedurally generated narratives, AI-generated scene images, and authentic D&D mechanics.
+Play D&D solo with an AI Dungeon Master! Every adventure is unique - the AI creates the story, generates images, and runs authentic D&D game mechanics.
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-3.0-green.svg)
 ![LLM](https://img.shields.io/badge/AI-OpenRouter-purple.svg)
-![Deploy](https://img.shields.io/badge/Deploy-Railway-orange.svg)
 
-## Features
+---
 
-- **AI Dungeon Master** - Dynamic story generation via OpenRouter LLMs
-- **AI-Generated Visuals** - Unique scene and enemy images via Pollinations.ai (FREE!)
-- **Dark Fantasy Aesthetic** - Atmospheric UI with fog effects, animations, and moody lighting
-- **D&D Mechanics** - Authentic dice rolls (d20, d6, d8), stat modifiers, and skill checks
-- **Three Playable Classes** - Fighter, Rogue, and Mage with unique abilities
-- **Turn-Based Combat** - Strategic battles with attack, ability, item, and flee options
-- **Quest System** - Dynamic quests that evolve based on your choices
-- **Save/Load** - Full game state persistence
-- **Easy Deployment** - One-click deploy to Railway
+## 🎮 What is This?
 
-## Screenshots
+This is a **browser-based D&D game** where:
+- 🤖 An **AI Dungeon Master** tells your story
+- 🎨 **AI generates unique images** for every scene
+- 🎲 **Real D&D dice rolls** (d20, d6, d8) determine your fate
+- ⚔️ **Turn-based combat** with attacks, abilities, and items
+- 💾 **Save and load** your adventure anytime
 
-*Dark fantasy tavern scene with atmospheric fog and moody lighting*
+**No D&D experience required!** The game handles all the rules for you.
 
-## Quick Start
+---
 
-### Local Development
+## 🚀 How to Run the Game
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/dragons-shadow.git
-   cd dragons-shadow
-   ```
+### Step 1: Get the Code
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set your OpenRouter API key**
-   ```bash
-   # Windows PowerShell
-   $env:OPENROUTER_API_KEY = "sk-or-v1-your-key-here"
-   
-   # Linux/Mac
-   export OPENROUTER_API_KEY="sk-or-v1-your-key-here"
-   ```
-   
-   Get a free key at [OpenRouter](https://openrouter.ai/keys)
-
-4. **Run the game**
-   ```bash
-   python app.py
-   ```
-
-5. **Open your browser**
-   ```
-   http://localhost:5000
-   ```
-
-### Deploy to Railway
-
-1. Push your code to GitHub
-
-2. Go to [Railway](https://railway.app) and create a new project
-
-3. Connect your GitHub repository
-
-4. Add environment variable:
-   - `OPENROUTER_API_KEY` = your OpenRouter API key
-
-5. Deploy! Railway will automatically detect the Procfile
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template)
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Browser (Client)                        │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
-│  │   HTML/CSS  │  │  game.js    │  │   AI-Generated Images   │  │
-│  │  Dark Theme │  │  Game Logic │  │   (Pollinations.ai)     │  │
-│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │ API Calls
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      Flask Server (app.py)                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
-│  │  Routes     │  │  Session    │  │   Game State            │  │
-│  │  /api/*     │  │  Management │  │   Management            │  │
-│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-     ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-     │  engine.py  │  │  llm_dm.py  │  │ image_gen.py│
-     │  Game Logic │  │  OpenRouter │  │ Pollinations│
-     │  Dice/Combat│  │  LLM Calls  │  │ AI Images   │
-     └─────────────┘  └─────────────┘  └─────────────┘
+```bash
+git clone https://github.com/ARJUNVARMA2000/LLM_DND.git
+cd LLM_DND
 ```
 
-## File Structure
+### Step 2: Install Python Packages
+
+Make sure you have **Python 3.11+** installed, then run:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 3: Get a Free API Key
+
+1. Go to [OpenRouter.ai](https://openrouter.ai/keys)
+2. Create a free account
+3. Generate an API key (looks like `sk-or-v1-...`)
+
+### Step 4: Set Your API Key
+
+**On Windows (PowerShell):**
+```powershell
+$env:OPENROUTER_API_KEY = "sk-or-v1-your-key-here"
+```
+
+**On Mac/Linux:**
+```bash
+export OPENROUTER_API_KEY="sk-or-v1-your-key-here"
+```
+
+### Step 5: Start the Game!
+
+```bash
+python app.py
+```
+
+### Step 6: Play!
+
+Open your web browser and go to: **http://localhost:5000**
+
+---
+
+## 🧙 Choose Your Class
+
+| Class | Health | Special Ability |
+|-------|--------|-----------------|
+| ⚔️ **Fighter** | 18 HP | **Second Wind** - Heal yourself mid-combat |
+| 🗡️ **Rogue** | 12 HP | **Sneak Attack** - Deal massive bonus damage |
+| 🔮 **Mage** | 10 HP | **Fireball** - Blast enemies with fire magic |
+
+---
+
+## 🎮 Controls
+
+### Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `1-9` | Select dialogue options |
+| `I` | Open inventory |
+| `Escape` | Close menus |
+
+### In Combat
+
+| Key | Action |
+|-----|--------|
+| `A` | Attack |
+| `S` | Use Special Ability |
+| `D` | Use Item |
+| `F` | Try to Flee |
+
+---
+
+## 📁 Project Files Explained
 
 ```
-DND/
-├── app.py              # Flask server & API routes
-├── engine.py           # Game mechanics, dice, combat, state
-├── llm_dm.py           # OpenRouter LLM integration
-├── image_gen.py        # Pollinations.ai image generation
-├── requirements.txt    # Python dependencies
-├── Procfile            # Deployment command
-├── railway.json        # Railway configuration
+LLM_DND/
+├── app.py              # 🖥️  Web server - handles browser requests
+├── engine.py           # ⚙️  Game rules - dice, combat, inventory
+├── game.py             # 🎮  Game logic - story flow, choices
+├── llm_dm.py           # 🤖  AI brain - talks to the AI model
+├── image_gen.py        # 🎨  Image creator - generates scene art
+├── requirements.txt    # 📦  List of Python packages needed
+├── Procfile            # 🚀  Instructions for cloud deployment
+├── railway.json        # ☁️  Railway.app settings
 ├── templates/
-│   └── index.html      # Main game page
+│   └── index.html      # 🌐  The game's web page
 ├── static/
 │   ├── css/
-│   │   └── style.css   # Dark fantasy theme
+│   │   └── style.css   # 🎨  Visual styling (dark fantasy theme)
 │   └── js/
-│       └── game.js     # Frontend game logic
-├── saves/              # Save game directory
-└── README.md           # This file
+│       └── game.js     # 🎮  Browser game logic
+└── saves/              # 💾  Your saved games go here
 ```
 
-## Gameplay
+---
 
-### Classes
+## 🏗️ How It Works
 
-| Class | HP | Primary Stat | Ability |
-|-------|-----|--------------|---------|
-| **Fighter** | 18 | STR | Second Wind - Heal 1d10+2 HP (1/rest) |
-| **Rogue** | 12 | DEX | Sneak Attack - +2d6 damage (1/combat) |
-| **Mage** | 10 | INT | Fireball - 3d6 fire damage (2/day) |
+```
+┌──────────────────────────────────────────────────────────┐
+│                    YOUR BROWSER                          │
+│   You see: Story text, images, choices, dice rolls      │
+└──────────────────────────────────────────────────────────┘
+                            ↓ clicks & choices
+┌──────────────────────────────────────────────────────────┐
+│                   FLASK WEB SERVER                       │
+│   app.py receives your choices and sends back updates   │
+└──────────────────────────────────────────────────────────┘
+          ↓                    ↓                    ↓
+   ┌──────────┐         ┌──────────┐         ┌──────────┐
+   │ engine.py│         │ llm_dm.py│         │image_gen │
+   │ Dice &   │         │ AI Story │         │ AI Art   │
+   │ Combat   │         │ Writing  │         │ Creation │
+   └──────────┘         └──────────┘         └──────────┘
+                              ↓                    ↓
+                        OpenRouter            Pollinations
+                        (AI Text)             (AI Images)
+                         [PAID]                 [FREE!]
+```
 
-### Controls
+---
 
-**Keyboard Shortcuts:**
-- `1-9` - Select choices
-- `I` - Open inventory
-- `Escape` - Close modals
+## ☁️ Deploy Online (Railway)
 
-**Combat Shortcuts:**
-- `A` - Attack
-- `S` - Use Ability
-- `D` - Use Item
-- `F` - Flee
+Want to put your game on the internet? It's easy!
 
-### Dice System
+1. **Push code to GitHub** (see commands below)
+2. Go to [Railway.app](https://railway.app)
+3. Click **"New Project"** → **"Deploy from GitHub"**
+4. Select this repository
+5. Add your `OPENROUTER_API_KEY` in Railway's Variables tab
+6. Done! Railway gives you a public URL
 
-The game uses authentic D&D-style dice:
-- **d20** for attack rolls and skill checks
-- **d6/d8** for damage
+---
 
-## Configuration
+## 💰 Cost Breakdown
+
+| Service | Cost | What It Does |
+|---------|------|--------------|
+| **Pollinations.ai** | **FREE** | Generates all the images |
+| **OpenRouter** | ~$0.01-0.02/session | Powers the AI storytelling |
+
+The AI text generation costs about **1-2 cents per game session** using the default model.
+
+---
+
+## ⚙️ Settings You Can Change
 
 ### Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `OPENROUTER_API_KEY` | Yes | Your OpenRouter API key |
-| `FLASK_SECRET_KEY` | No | Session encryption key (auto-generated if not set) |
-| `PORT` | No | Server port (default: 5000) |
-| `FLASK_DEBUG` | No | Enable debug mode (default: false) |
+| Variable | Required? | What It Does |
+|----------|-----------|--------------|
+| `OPENROUTER_API_KEY` | ✅ Yes | Your AI API key |
+| `PORT` | ❌ No | Server port (default: 5000) |
+| `FLASK_DEBUG` | ❌ No | Enable debug mode |
 
-### Available LLM Models
+### AI Models Available
 
-| Model | Tier | Best For |
-|-------|------|----------|
-| Llama 3.1 8B | Cheap | Testing, fast iterations |
-| Llama 3.1 70B | Balanced | Good quality, reasonable cost (default) |
-| Claude 3.5 Haiku | Balanced | Follows formats well |
-| GPT-4o Mini | Balanced | Good all-rounder |
-| Claude Sonnet 4 | Premium | Excellent narrative quality |
-| GPT-4o | Premium | Highest quality |
+Edit `llm_dm.py` to change the AI model:
 
-## Extending the Game
+| Model | Speed | Quality | Cost |
+|-------|-------|---------|------|
+| Llama 3.1 8B | ⚡ Fast | Good | Cheapest |
+| Llama 3.1 70B | Medium | Great | Low |
+| GPT-4o Mini | Medium | Great | Low |
+| Claude 3.5 Haiku | Medium | Excellent | Medium |
+| GPT-4o | Slower | Best | Higher |
 
-### Adding a New Class
+---
 
-In `engine.py`, add to the `CLASSES` dictionary:
+## 🛠️ Want to Modify the Game?
+
+### Change the AI's Personality
+
+Edit the `SYSTEM_PROMPT` in `llm_dm.py`:
 
 ```python
-CLASSES = {
-    "paladin": {
-        "base_hp": 14,
-        "primary_stat": "CHA",
-        "starting_gold": 12,
-        "starting_items": ["Longsword", "Shield", "Holy Symbol"],
-        "ability": {
-            "name": "Divine Smite",
-            "description": "Add 2d8 radiant damage",
-            "uses": 2,
-            "cooldown_type": "rest",
-            "effect": "damage_boost"
-        }
+SYSTEM_PROMPT = """You are a gritty, dark fantasy Dungeon Master.
+Your world is dangerous. NPCs have secrets..."""
+```
+
+### Add a New Character Class
+
+Add to the `CLASSES` dictionary in `engine.py`:
+
+```python
+"paladin": {
+    "base_hp": 14,
+    "primary_stat": "CHA",
+    "ability": {
+        "name": "Divine Smite",
+        "description": "Holy damage bonus"
     }
 }
 ```
 
-### Modifying the DM's Personality
+### Change the Colors
 
-In `llm_dm.py`, edit `SYSTEM_PROMPT`:
-
-```python
-SYSTEM_PROMPT = """You are a gritty, dark fantasy Dungeon Master.
-Your world is dangerous and unforgiving. Combat is brutal.
-NPCs have hidden agendas..."""
-```
-
-### Customizing the Visual Style
-
-Edit `static/css/style.css` to change colors, fonts, and effects:
+Edit `static/css/style.css`:
 
 ```css
 :root {
-    --accent-gold: #c9a227;  /* Change accent color */
-    --bg-darkest: #0a0a0c;   /* Change background */
+    --accent-gold: #c9a227;  /* Gold highlights */
+    --bg-darkest: #0a0a0c;   /* Background color */
 }
 ```
 
-## API Costs
+---
 
-- **OpenRouter (LLM)**: Pay-per-token, varies by model
-  - Llama 3.1 70B: ~$0.01-0.02 per session
-  - GPT-4o: ~$0.10-0.20 per session
-- **Pollinations.ai (Images)**: FREE! No API key needed
+## 🤝 Contributing
 
-## Tech Stack
-
-- **Backend**: Python 3.11+, Flask 3.0
-- **Frontend**: Vanilla JavaScript, CSS3
-- **LLM**: OpenRouter API (multi-model support)
-- **Images**: Pollinations.ai (free AI image generation)
-- **Deployment**: Railway, Gunicorn
-
-## Contributing
-
-Contributions welcome! Ideas:
-
+Ideas for improvements:
 - [ ] Multiplayer support
-- [ ] Voice narration (TTS integration)
-- [ ] Map visualization
-- [ ] Additional classes
-- [ ] Mobile optimization
+- [ ] Voice narration
+- [ ] More character classes
+- [ ] Mobile-friendly design
 - [ ] Sound effects
 
-## License
-
-MIT License - feel free to use, modify, and distribute.
-
-## Credits
-
-- AI narrative powered by OpenRouter
-- AI images powered by Pollinations.ai
-- Inspired by classic D&D adventures
+Pull requests welcome!
 
 ---
 
-*Roll for initiative. Your adventure awaits.* 🐉
+## 📜 License
+
+MIT License - free to use, modify, and share.
+
+---
+
+## 🙏 Credits
+
+- **AI Storytelling**: [OpenRouter](https://openrouter.ai)
+- **AI Images**: [Pollinations.ai](https://pollinations.ai) (free!)
+- **Inspired by**: Classic Dungeons & Dragons
+
+---
+
+*Roll for initiative. Your adventure awaits.* 🎲

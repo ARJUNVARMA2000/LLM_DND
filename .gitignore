@@ -20,7 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual environments
+# Virtual Environment
 venv/
 ENV/
 env/
@@ -32,43 +32,23 @@ env/
 *.swp
 *.swo
 *~
-.project
-.pydevproject
-.settings/
 
-# Environment variables
+# Environment Variables (IMPORTANT - never commit API keys!)
 .env
 .env.local
 .env.*.local
 
-# Game saves
+# Saves (game save files)
 saves/*.json
-save.json
-
-# Generated images cache
-static/generated/
-
-# OS files
-.DS_Store
-Thumbs.db
-desktop.ini
 
 # Logs
 *.log
-logs/
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
+# OS Files
+.DS_Store
+Thumbs.db
 
-# Type checking
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Jupyter
-.ipynb_checkpoints/
-
+# Generated Images Cache
+static/images/*.png
+static/images/*.jpg
+!static/images/.gitkeep

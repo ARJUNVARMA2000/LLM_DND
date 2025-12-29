@@ -38,10 +38,20 @@ def debug_log(message: str) -> None:
 
 # OpenRouter API configuration
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "meta-llama/llama-3.1-70b-instruct"
+DEFAULT_MODEL = "google/gemini-2.5-flash-preview"
 
 # Available models with descriptions
 AVAILABLE_MODELS = {
+    "google/gemini-2.5-flash-preview": {
+        "name": "Gemini 2.5 Flash",
+        "tier": "balanced",
+        "description": "Fast, smart, great value (default)"
+    },
+    "google/gemini-2.5-pro-preview": {
+        "name": "Gemini 2.5 Pro",
+        "tier": "premium",
+        "description": "Google's most capable model"
+    },
     "meta-llama/llama-3.1-8b-instruct": {
         "name": "Llama 3.1 8B",
         "tier": "cheap",
